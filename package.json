@@ -1,0 +1,28 @@
+{
+  "name": "cips",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "start": "app.js"
+  },
+  "description": "ExpressApp1",
+  "author": "prencipev",
+  "dependencies": {
+    "body-parser": "^1.15.2",
+    "debug": "^2.2.0",
+    "ejs": "^2.5.1",
+    "express": "~4.9.0",
+    "fs": "0.0.1-security",
+    "gulp": "^3.9.1",
+    "html": "^1.0.0",
+    "phantom": "^2.1.21",
+    "q": "^1.4.1",
+    "request": "^2.74.0",
+    "striptags": "^2.1.1"
+  },
+  "devDependencies": {
+    "gulp": "^3.9.1"
+  },
+  "main": "app.js",
+  "license": "ISC"
+}
