@@ -1,4 +1,4 @@
-﻿navigator.serviceWorker.register('service-worker.js');
+navigator.serviceWorker.register('service-worker.js');
 
 jQuery(document).ready(function ($) {
 
@@ -120,7 +120,7 @@ jQuery(document).ready(function ($) {
 
                 cardTemplate.find('.story-image').append('<img src="' + image + '"/>')
                 cardTemplate.find('.story-body h3').append(title);
-                cardTemplate.find('.story-body p').append(description);
+                cardTemplate.find('.story-body p').append(htmlDecode(description));
                 storyContainer.append(cardTemplate);
 
                 storyContainer.show();
@@ -212,7 +212,7 @@ jQuery(document).ready(function ($) {
         }
 
         articleTemplate.find('.headline').append(title);
-        articleTemplate.find('.article-sell p').append(description);
+        articleTemplate.find('.article-sell p').append(htmlDecode(description));
         articleTemplate.find('.article-image').append('<figure><img src="' + image + '"/></figure>');
         articleTemplate.find('.credits').append(credits);
         articleTemplate.find('.article-body').append(body);

@@ -1,8 +1,8 @@
 {
   "lang": "en",
-  "name": "The Billings Gazette",
-  "short_name": "Billings Gazette",
-  "description": "Montana and Northern Wyoming's largest information provider.",
+  "name": "The Mr. Porter Journal",
+  "short_name": "Mr Porter Journal",
+  "description": "Mr. Porter Daily News",
   "icons": [{
     "src": "images/icons/icon-128x128.png",
       "sizes": "128x128",
@@ -26,7 +26,7 @@
     }],
   "start_url": "index.html",
   "display": "standalone",
-  "background_color": "#231F20",
-  "theme_color": "#231F20",
+  "background_color": "#fff",
+  "theme_color": "#fff",
   "orientation": "portrait"
 }

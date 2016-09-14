@@ -24,7 +24,7 @@
 /* eslint-disable indent, no-unused-vars, no-multiple-empty-lines, max-nested-callbacks, space-before-function-paren, quotes, comma-spacing */
 'use strict';
 
-var precacheConfig = [["/images/clear.png","e17de36d2c2ddf7b068892fa4678cd31"],["/images/cloudy-scattered-showers.png","855f638a52b7fbc1ec2a3d596fedbd28"],["/images/cloudy.png","6b2148e05e5fe4bf2a218438afcb6d3c"],["/images/cloudy_s_sunny.png","827577d4371bd0c83789fac7a2fe1546"],["/images/fog.png","44f56cff88530b5e3315890d6c209ac2"],["/images/ic_add_white_24px.svg","c3379830302abe84f64db87b5bac9faa"],["/images/ic_refresh_white_24px.svg","f73272d4efd233a85e8c649d26126f01"],["/images/icons/icon-128x128.png","b1b0f7b8adb5bb5568c370b1c8af29e9"],["/images/icons/icon-144x144.png","928538579a59f24888281462ce75ef7a"],["/images/icons/icon-152x152.png","300cd90366750e4abbab2205d219624e"],["/images/icons/icon-192x192.png","ac65b2a8d6e7ad80fdab29f76edd91c7"],["/images/icons/icon-256x256.png","827577d4371bd0c83789fac7a2fe1546"],["/images/icons/icon-32x32.png","940d8b2f15cc3bee9e6997f9408bbea7"],["/images/partly-cloudy.png","a2e10546a6f7000e1b7d5846ba492f9b"],["/images/rain.png","5a2600b1199d1c95da554a5f97861c04"],["/images/scattered-showers.png","ec178dbbcd45abb9db4be616801df3b0"],["/images/sleet.png","15ee1fe8d87a5b1ca604eb56729f3f08"],["/images/snow.png","6f9fa355f32b353a18a1dd3f89ac3fd7"],["/images/thunderstorm.png","c4df123a44c17a1b5d1e8b33b268ea5c"],["/images/wind.png","c1136285b55a50c206f0a96f64080767"],["/scripts/app.js","fa1087119da82a9a732058a41b2de72a"],["/service-worker.js","c052d3a90c701a581b4da2ae85e25d3b"],["/styles/inline.css","046360ba0312fe83af5840d6448a7832"],["/stylesheets/style.css","d01c5e0f73b2de735aaed51452e81874"]];
+var precacheConfig = [["/css/app.min.css","fb7c94b3d157ab11a836e405a95f87df"],["/images/icons/icon-144x144.png","27806e15f7da9971042b7d292aa01d7a"],["/images/icons/icon-152x152.png","fe01e93aef32e45a539b79e06c794006"],["/images/logo.svg","d17a5c5ee9bb18d5cb815a97f9c745ea"],["/index.html","f751984ac3f67ed349ba52feaece5b03"],["/js/app.js","d1e1689044c859b80b74820626d23f2e"],["/js/app.min.js","6730decba62bd7bbd8666eb017bc9f9c"],["/js/jquery-3.1.0.min.js","05e51b1db558320f1939f9789ccf5c8f"],["/js/jquery.ba-bbq.js","0ba9539df1da09ee72109831f0e94b83"]];
 var cacheName = 'sw-precache-v2--' + (self.registration ? self.registration.scope : '');
 
 
@@ -199,6 +199,29 @@ self.addEventListener('fetch', function(event) {
         })
       );
     }
+  }
+});
+
+self.addEventListener('fetch', function(e) {
+  console.log('[ServiceWorker] Fetch', e.request.url);
+  var dataUrl = 'd27new9tf7xtc3.cloudfront.net/feed';
+  if (e.request.url.indexOf(dataUrl) === 0) {
+    e.respondWith(
+      fetch(e.request)
+        .then(function(response) {
+          return caches.open(dataCacheName).then(function(cache) {
+            cache.put(e.request.url, response.clone());
+            console.log('[ServiceWorker] Fetched & Cached Data');
+            return response;
+          });
+        })
+    );
+  } else {
+    e.respondWith(
+      caches.match(e.request).then(function(response) {
+        return response || fetch(e.request);
+      })
+    );
   }
 });
 

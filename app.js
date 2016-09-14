@@ -1,4 +1,4 @@
-﻿var express = require('express');
+var express = require('express');
 var path = require('path');
 var bodyParser = require('body-parser');
 var http = require('http');
@@ -28,19 +28,19 @@ app.get('/feed/:section', function (req, res) {
     var sitepage = null;
     var phInstance = null;
     phantom.create()
-        .then(instance => {
+        .then(function(instance){
             phInstance = instance;
             return instance.createPage();
         })
-        .then(page => {
+        .then(function(page){
             sitepage = page;
             return page.open('http://www.mrporter.com/journal/' + _section + '?json=true');
         })
-        .then(status => {
+        .then(function(status){
             console.log(status);
             return sitepage.property('content');
         })
-        .then(content => {
+        .then(function(content){
             res.writeHead(200, { 'Content-Type': 'application/json' });
             res.write(striptags(content));
             res.end();
@@ -48,10 +48,11 @@ app.get('/feed/:section', function (req, res) {
             sitepage.close();
             phInstance.exit();
         })
-        .catch(error => {
+        .catch(function(error){
             console.log(error);
             phInstance.exit();
         });
+      
 });
 
 app.get('/feed/:cat/:section', function (req, res) {
@@ -60,19 +61,19 @@ app.get('/feed/:cat/:section', function (req, res) {
     var sitepage = null;
     var phInstance = null;
     phantom.create()
-        .then(instance => {
+        .then(function(instance){
             phInstance = instance;
             return instance.createPage();
         })
-        .then(page => {
+        .then(function(page){
             sitepage = page;
             return page.open('http://www.mrporter.com/journal/' + _cat+'/'+_section +'?json=true');
         })
-        .then(status => {
+        .then(function(status){
             console.log(status);
             return sitepage.property('content');
         })
-        .then(content => {
+        .then(function(content){
             res.writeHead(200, { 'Content-Type': 'application/json' });
             res.write(striptags(content));
             res.end();
@@ -80,7 +81,7 @@ app.get('/feed/:cat/:section', function (req, res) {
             sitepage.close();
             phInstance.exit();
         })
-        .catch(error => {
+        .catch(function(error){
             console.log(error);
             phInstance.exit();
         });
@@ -94,19 +95,19 @@ app.get('/feed/:cat/:section/:id', function (req, res) {
     var sitepage = null;
     var phInstance = null;
     phantom.create()
-        .then(instance => {
+        .then(function(instance){
             phInstance = instance;
             return instance.createPage();
         })
-        .then(page => {
+        .then(function(page){
             sitepage = page;
             return page.open(_url);
         })
-        .then(status => {
+        .then(function(status){
             console.log(status);
             return sitepage.property('content');
         })
-        .then(content => {
+        .then(function(content){
             res.writeHead(200, { 'Content-Type': 'application/json' });
             res.write(striptags(content));
             res.end();
@@ -114,15 +115,16 @@ app.get('/feed/:cat/:section/:id', function (req, res) {
             sitepage.close();
             phInstance.exit();
         })
-        .catch(error => {
+        .catch(function(error){
             console.log(error);
             phInstance.exit();
         });
 });
 
-app.listen(app.get('port'), function () {
-    console.log('Node app is running on port', app.get('port'));
-});
+
+var port = process.env.PORT || 4403;
+app.listen(port);
+console.log('App running on port', port);
 
 
 module.exports = app;
